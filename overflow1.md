@@ -23,7 +23,8 @@ https://etherscan.io/address/0xbf0Bd228e20002034EC913DF972682e490403617#code
         }
     }
     
-    ```
+```
+
 This contract could be used to trade tokens. However there exists a integer overflow in function sell().
 
 if owner set the value of sellPrice to a large number like 0x8000000000000000000000000000000000000000000000000000000000000000 in setPrices() and then the "amount * sellPrice" will cause a integer overflow in sell().
