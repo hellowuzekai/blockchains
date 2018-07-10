@@ -26,5 +26,6 @@ https://etherscan.io/address/0x4b15b2D301dD81e05fc404e16bdd138b29dcDeFd
     }
 
 ```
-In this contract, The 'bool sufficientAllowance = allowance <= _value' will cause an arbitrary transfer in function transferFrom because the '<=' instead of '>='. 
-And there also have a integer overflow in 'bool sufficientFunds = fromBalance <= _value; ...; balances[_from] -= _value;'
+
+In this contract, The 'bool sufficientAllowance = allowance <= _value' will cause an arbitrary transfer in function transferFrom because the '<=' instead of '>='. Attacker can transfer from any address to his address and does not need to meet the conditions of ‘allowance > value’.
+And there also have a integer overflow in 'bool sufficientFunds = fromBalance <= _value; ...; balances[_from] -= _value;',the balances[_from] must overflow.
