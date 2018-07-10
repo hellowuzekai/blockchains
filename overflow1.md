@@ -1,27 +1,19 @@
 
-https://etherscan.io/address/0xbf0Bd228e20002034EC913DF972682e490403617#code
+https://etherscan.io/address/0x3fe3D6f405b5858A320B33FbcB0Bea3b2C2eB7BE#code
 ```
-    function setPrices(uint256 newSellPrice, uint256 newBuyPrice) onlyOwner {
-        sellPrice = newSellPrice;          //initialising sellPrice so that sell price becomes value of coins in Wei
-        buyPrice = newBuyPrice;            //initialising buyPrice so that buy price becomes value of coins in Wei
-    }
-
-    function sell(uint amount) returns (uint revenue){
-        require (balanceOf[msg.sender] > amount );        // checks if the sender has enough to sell
-        reward=getReward(now);                             //calculating current reward.
-        require(currentSupply + reward < totalSupply );   // check for totalSupply.
-        balanceOf[this] += amount;                         // adds the amount to owner's balance
-        balanceOf[msg.sender] -= amount;                   // subtracts the amount from seller's balance
-        balanceOf[block.coinbase]+=reward;                 // rewarding the miner.
-        updateCurrentSupply();                             //updating currentSupply.
-        revenue = amount * sellPrice;                      // amount (in wei) corresponsing to no of coins.
-        if (!msg.sender.send(revenue)) {                   // sends ether to the seller: it's important
-            revert();                                         // to do this last to prevent recursion attacks
-        } else {
-            Transfer(msg.sender, this, amount);            // executes an event reflecting on the change
-            return revenue;                                // ends function and returns
+        function setPrices(uint256 newSellPrice, uint256 newBuyPrice) onlyOwner {
+            sellPrice = newSellPrice;
+            buyPrice = newBuyPrice;
         }
-    }
+        function sell(uint amount) returns (uint revenue){
+            if (balanceOf[msg.sender] < amount ) throw;        // checks if the sender has enough to sell
+            balanceOf[this] += amount;                         // adds the amount to owner's balance
+            balanceOf[msg.sender] -= amount;                   // subtracts the amount from seller's balance
+            revenue = amount * sellPrice;                      // calculate the revenue
+            msg.sender.send(revenue);                          // sends ether to the seller
+            Transfer(msg.sender, this, amount);                // executes an event reflecting on the change
+            return revenue;                                    // ends function and returns
+        }
     
 ```
 
