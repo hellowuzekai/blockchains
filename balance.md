@@ -20,6 +20,9 @@ function () public payable {
                 ...
  }
 ```
+
 In MillionCoin (MON) contract, there is a fallback function here that can cause an overflow. 
+
 After this judgment statement of "stageMaxEthAmount>this.balance", "this.balance" can still be increased with the "selfdestruct" function.
+
 If we use the "selfdestruct" function to send some Ethereum to this contract, "this.balance" will increase, and "this.balance*(currS.stagePrice)" can cause an overflow.
