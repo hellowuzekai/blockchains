@@ -25,4 +25,4 @@ In MillionCoin (MON) contract, there is a fallback function here that can cause 
 
 After this judgment statement of "stageMaxEthAmount>this.balance", "this.balance" can still be increased with the "selfdestruct" function.
 
-If we use the "selfdestruct" function to send some Ethereum to this contract, "this.balance" will increase, and "this.balance*(currS.stagePrice)" can cause an overflow.
+If we use the "selfdestruct(MON ADDRESS)" function in another contract to send some Ethereum to this contract after the "stageMaxEthAmount>this.balance", "this.balance" will increase, and "this.balance*(currS.stagePrice)" can cause an overflow.
